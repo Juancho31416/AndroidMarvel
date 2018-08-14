@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MarvelAplication</string>
+    <string name="backString">Introduzca formula</string>
+    <string name="buttonCalc">Calcular</string>
+</resources>
