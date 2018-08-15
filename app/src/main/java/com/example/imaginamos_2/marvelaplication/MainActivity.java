@@ -92,11 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            if( resultadoCalculo == 0 && multiploDe ==0){
+            if( resultadoCalculo == 0 ){
 
                 result = "0";
             }
+            else if(resultadoCalculo != 0 && multiploDe ==0){
 
+                result = "undefined";
+            }
 
 
         return  result;
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         return numeroRedondeado;
     }
+
 
 
 }
