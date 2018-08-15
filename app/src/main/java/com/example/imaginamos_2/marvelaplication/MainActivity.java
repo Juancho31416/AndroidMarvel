@@ -70,4 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
         return  result;
     }
+
+
+    public static boolean esMultiplo(int n1,int n2){
+        if (n1%n2==0)
+            return true;
+        else
+            return false;
+    }
 }
+
