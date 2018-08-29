@@ -1,5 +1,6 @@
 package com.example.imaginamos_2.marvelaplication;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.imaginamos_2.marvelaplication.models.MarvelList;
 import com.example.imaginamos_2.marvelaplication.models.Response;
+import com.example.imaginamos_2.marvelaplication.models.*;
 import com.example.imaginamos_2.marvelaplication.service.apiInterface;
 import com.example.imaginamos_2.marvelaplication.utils.HashGenerator;
 import com.example.imaginamos_2.marvelaplication.utils.apiUtils;
@@ -28,6 +30,8 @@ import static com.example.imaginamos_2.marvelaplication.utils.utils.*;
 public class MainActivity extends AppCompatActivity {
 
     MarvelList Data;
+    private ProgressDialog progress;
+    private MainActivity context = this;
 
 
     @Override
@@ -37,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button mButton = findViewById(button2);
+
+        this.progress = new ProgressDialog(context);
+        this.progress.setCancelable(false);
+        this.progress.setMessage(getString(R.string.loading));
 
 
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -62,17 +70,20 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (result) {
                     case "0":
+
                         Call<Response> callCharacters = ApiInterface.getCharacters(publicKey, hash, ts);
+
                         callCharacters.enqueue(new Callback<Response>() {
 
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                Data = (MarvelList<characters>) response.body().getData();
 
-                                 Data = (MarvelList) response.body().getData().getResults();
                             }
 
                             @Override
                             public void onFailure(Call<Response> call, Throwable t) {
+
                             }
                         });
                         break;
@@ -84,11 +95,13 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
-                                Data = (MarvelList) response.body().getData().getResults();
+                                Data = (MarvelList<comics>) response.body().getData();
+
                             }
 
                             @Override
                             public void onFailure(Call<Response> call, Throwable t) {
+
                             }
                         });
                         break;
@@ -100,24 +113,27 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
-                                Data = (MarvelList) response.body().getData().getResults();
+                                Data = (MarvelList<comics>) response.body().getData();
+
                             }
 
                             @Override
                             public void onFailure(Call<Response> call, Throwable t) {
+
                             }
                         });
 
                         break;
                     case "7":
 
-                      Call<Response> callCreators =ApiInterface.getCreators(publicKey, hash, ts);
+                        Call<Response> callCreators =ApiInterface.getCreators(publicKey, hash, ts);
                         callCreators.enqueue(new Callback<Response>() {
 
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
-                                Data = (MarvelList) response.body().getData().getResults();
+                                Data = (MarvelList<creators>) response.body().getData();
+
                             }
 
                             @Override
@@ -127,17 +143,20 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case "11":
+
                         Call<Response> callEvents = ApiInterface.getEvents(publicKey, hash, ts);
                         callEvents.enqueue(new Callback<Response>() {
 
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
-                                Data = (MarvelList) response.body().getData().getResults();
+                                Data = (MarvelList<events>) response.body().getData();
+
                             }
 
                             @Override
                             public void onFailure(Call<Response> call, Throwable t) {
+
                             }
                         });
                         break;
@@ -149,11 +168,13 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
-                                Data = (MarvelList) response.body().getData().getResults();
+                                Data = (MarvelList<series>) response.body().getData();
+
                             }
 
                             @Override
                             public void onFailure(Call<Response> call, Throwable t) {
+
                             }
                         });
                         break;
@@ -165,11 +186,13 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
-                                Data = (MarvelList) response.body().getData().getResults();
+                                Data = (MarvelList<storyList>) response.body().getData();
+
                             }
 
                             @Override
                             public void onFailure(Call<Response> call, Throwable t) {
+
                             }
                         });
                         break;
@@ -177,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //endregion
 
-                //region llamar la vista para cualquier evento
+                //region llamar la vista para cualquier tipo de data
 
 
                 //endregion
