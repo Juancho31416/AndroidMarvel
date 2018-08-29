@@ -8,23 +8,179 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.mariuszgromada.math.mxparser.Expression;
+import com.example.imaginamos_2.marvelaplication.models.MarvelList;
+import com.example.imaginamos_2.marvelaplication.models.Response;
+import com.example.imaginamos_2.marvelaplication.service.apiInterface;
+import com.example.imaginamos_2.marvelaplication.utils.HashGenerator;
+import com.example.imaginamos_2.marvelaplication.utils.apiUtils;
+
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.example.imaginamos_2.marvelaplication.R.id.TextInput;
 import static com.example.imaginamos_2.marvelaplication.R.id.button2;
 import static com.example.imaginamos_2.marvelaplication.R.id.textViewResult;
 
+import static com.example.imaginamos_2.marvelaplication.utils.utils.*;
+
+
 public class MainActivity extends AppCompatActivity {
+
+    MarvelList Data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button mButton = findViewById(button2);
+
+
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                final String result = onClickCalc(v);
+                //region calcula hash
+                HashGenerator generator = new HashGenerator();
+                String publicKey = getString(R.string.keyPublic);
+                String privateKey = getString(R.string.privateKey);
+                String ts = getString(R.string.ts);
+                String hash = generator.generateHash(ts, publicKey, privateKey);
+                //endregion
+
+                //region inicializa interface para servicio
+                String result = onClickCalc(v);
+
+                apiInterface ApiInterface;
+
+                ApiInterface = apiUtils.getService();
+                //endregion
+
+                //region llama el servicio segun el resultado del calculo del primo
+
+                switch (result) {
+                    case "0":
+                        Call<Response> callCharacters = ApiInterface.getCharacters(publicKey, hash, ts);
+                        callCharacters.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                 Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+                        break;
+                    case "3":
+
+                        Call<Response> callComics = ApiInterface.getComics(publicKey, hash, ts);
+                        callComics.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+                        break;
+                    case "5":
+
+                        Call<Response> callComics5 = ApiInterface.getComics(publicKey, hash, ts);
+                        callComics5.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+
+                        break;
+                    case "7":
+
+                      Call<Response> callCreators =ApiInterface.getCreators(publicKey, hash, ts);
+                        callCreators.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+
+                        break;
+                    case "11":
+                        Call<Response> callEvents = ApiInterface.getEvents(publicKey, hash, ts);
+                        callEvents.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+                        break;
+                    case "13":
+
+                        Call<Response> callSeries = ApiInterface.getSeries(publicKey, hash, ts);
+                        callSeries.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+                        break;
+                    default:
+
+                        Call<Response> callStories = ApiInterface.getStories(publicKey, hash, ts);
+                        callStories.enqueue(new Callback<Response>() {
+
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+                                Data = (MarvelList) response.body().getData().getResults();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                            }
+                        });
+                        break;
+                }
+
+                //endregion
+
+                //region llamar la vista para cualquier evento
+
+
+                //endregion
             }
         });
 
@@ -52,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         if( inputFormula!= null || inputFormula != "" ){
+
+            //region adecua el string
+            inputFormula = inputFormula.replace(" ","");
+            //endregion
+
 
             //region calcula y setea el view con el resultado
             resultadoCalculo = calcular(inputFormula);
@@ -86,15 +247,15 @@ public class MainActivity extends AppCompatActivity {
             }
         else {
 
-            Toast.makeText(this, "Por favor ingrese una formula!",
-                    Toast.LENGTH_LONG).show();
-
+                 Toast.makeText(this, "Por favor ingrese una formula!", Toast.LENGTH_LONG).show();
 
             }
 
-            if( resultadoCalculo == 0 ){
+            if( resultadoCalculo == 0 ) {
 
                 result = "0";
+
+
             }
             else if(resultadoCalculo != 0 && multiploDe ==0){
 
@@ -105,24 +266,6 @@ public class MainActivity extends AppCompatActivity {
         return  result;
     }
 
-    /*Este metodo revisa si el numero es multiplo retornando un booleano */
-    public static boolean esMultiplo(int n1,int n2){
-        if (n1%n2==0)
-            return true;
-        else
-            return false;
-    }
-
-
-    /* Este metodo se encarga de calcular la operación ingresada y devuelvee el numero redondeado*/
-    public int calcular(String formula){
-
-        Expression e = new Expression(formula);
-        double result = e.calculate();
-        int numeroRedondeado = (int)result;
-
-        return numeroRedondeado;
-    }
 
 
 

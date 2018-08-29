@@ -4,7 +4,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashGenerator {
-    String generateHash(String timestamp, String publicKey, String privateKey){
+
+     public String generateHash(String timestamp, String publicKey, String privateKey){
 
         StringBuilder md5 = new StringBuilder();
 

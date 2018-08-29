@@ -4,4 +4,5 @@
     <string name="buttonCalc">calcular</string>
     <string name="keyPublic">182e6008b9aa16db4e6e4aa12adf9719</string>
     <string name="privateKey">9d668736344e1c8c425fd238c6826dc80400631e</string>
+    <string name="ts">1</string>
 </resources>
