@@ -14,6 +14,7 @@ import com.example.imaginamos_2.marvelaplication.models.Response;
 import com.example.imaginamos_2.marvelaplication.models.*;
 import com.example.imaginamos_2.marvelaplication.service.apiInterface;
 import com.example.imaginamos_2.marvelaplication.utils.HashGenerator;
+import com.example.imaginamos_2.marvelaplication.utils.ViewAdapter;
 import com.example.imaginamos_2.marvelaplication.utils.apiUtils;
 
 
@@ -133,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<creators>) response.body().getData();
+
+                                ViewAdapter adapter =  new ViewAdapter();
+
+
 
                             }
 
