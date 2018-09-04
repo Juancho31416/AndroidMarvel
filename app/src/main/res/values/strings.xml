@@ -6,4 +6,12 @@
     <string name="privateKey">9d668736344e1c8c425fd238c6826dc80400631e</string>
     <string name="ts">1</string>
     <string name="loading">Cargando.....</string>
+    <string name="titleComics">COMICS</string>
+    <string name="titleStories">HISTORIAS</string>
+    <string name="titleCharacters">PERSONAJES</string>
+    <string name="titleEvents">EVENTOS</string>
+    <string name="titleCreators">CREADORES</string>
+    <string name="titleSeries">SERIES</string>
+    <string name="titleWelcome">BIENVENIDO</string>
+
 </resources>

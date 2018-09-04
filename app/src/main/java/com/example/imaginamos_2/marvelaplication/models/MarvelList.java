@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MarvelList<O> {
+public class MarvelList<Object> {
     @SerializedName("offset")
     private int offset;
     @SerializedName("limit")

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class characters {
 
-    public characters(Integer id, String name, String description, Date modified, String resourceURI, List<url> urls, List<Image> thumbnail, comicList comics, storyList stories, eventList events, seriesList series) {
+    public characters(Integer id, String name, String description, Date modified, String resourceURI, List<url> urls, Image thumbnail, comicList comics, storyList stories, eventList events, seriesList series) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -70,11 +70,11 @@ public class characters {
         this.urls = urls;
     }
 
-    public List<Image> getThumbnail() {
+    public Image getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(List<Image> thumbnail) {
+    public void setThumbnail(Image thumbnail) {
         this.thumbnail = thumbnail;
     }
 
@@ -137,7 +137,7 @@ public class characters {
 
     @SerializedName("thumbnail")
     @Expose
-    private List<Image> thumbnail;
+    private Image thumbnail;
 
     @SerializedName("comics")
     @Expose

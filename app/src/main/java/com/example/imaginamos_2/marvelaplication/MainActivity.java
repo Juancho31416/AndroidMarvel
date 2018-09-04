@@ -3,12 +3,15 @@ package com.example.imaginamos_2.marvelaplication;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.imaginamos_2.marvelaplication.adapter.RVAdapter;
 import com.example.imaginamos_2.marvelaplication.models.MarvelList;
 import com.example.imaginamos_2.marvelaplication.models.Response;
 import com.example.imaginamos_2.marvelaplication.models.*;
@@ -17,6 +20,10 @@ import com.example.imaginamos_2.marvelaplication.utils.HashGenerator;
 import com.example.imaginamos_2.marvelaplication.utils.ViewAdapter;
 import com.example.imaginamos_2.marvelaplication.utils.apiUtils;
 
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         this.progress.setCancelable(false);
         this.progress.setMessage(getString(R.string.loading));
 
+        final TextView mTitle = findViewById(R.id.textTitleResult);
+        mTitle.setText(R.string.titleWelcome);
+
 
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -65,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
                 apiInterface ApiInterface;
 
                 ApiInterface = apiUtils.getService();
+
+                //endregion
+
+                //region inicializar reciclerview
+                RecyclerView rv = (RecyclerView)findViewById(R.id.reciclerVi);
+
+                LinearLayoutManager llm = new LinearLayoutManager(context);
+                rv.setLayoutManager(llm);
+
+
                 //endregion
 
                 //region llama el servicio segun el resultado del calculo del primo
@@ -79,6 +99,17 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                                 Data = (MarvelList<characters>) response.body().getData();
+                                characters results[] = (characters[]) Data.getResults().toArray();
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.characterArray = results;
+                                adapter.type = "character";
+
+
+                                mTitle.setText(R.string.titleCharacters);
+
+
 
                             }
 
@@ -97,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<comics>) response.body().getData();
+                                comics resultscom[] = (comics[]) Data.getResults().toArray();
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.comicArray = resultscom;
+                                adapter.type = "comic";
+
+                                mTitle.setText(R.string.titleComics);
 
                             }
 
@@ -115,6 +154,16 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<comics>) response.body().getData();
+                                comics results[] = (comics[]) Data.getResults().toArray();
+
+                                comics resultscom[] = (comics[]) Data.getResults().toArray();
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.comicArray = resultscom;
+                                adapter.type = "comic";
+
+                                mTitle.setText(R.string.titleComics);
 
                             }
 
@@ -134,8 +183,16 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<creators>) response.body().getData();
+                                creators resultsCreators[] = (creators[]) Data.getResults().toArray();
 
-                                ViewAdapter adapter =  new ViewAdapter();
+                                mTitle.setText(R.string.titleCreators);
+
+
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.creatorsArray = resultsCreators;
+                                adapter.type = "creators";
 
 
 
@@ -156,6 +213,14 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<events>) response.body().getData();
+                                events resultsEvents[] = (events[]) Data.getResults().toArray();
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.eventsArray = resultsEvents;
+                                adapter.type = "events";
+
+                                mTitle.setText(R.string.titleEvents);
 
                             }
 
@@ -174,6 +239,14 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<series>) response.body().getData();
+                                series resultsSeries[] = (series[]) Data.getResults().toArray();
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.seriesArray = resultsSeries;
+                                adapter.type = "series";
+
+                                mTitle.setText(R.string.titleSeries);
 
                             }
 
@@ -192,6 +265,13 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<storyList>) response.body().getData();
+                                stories resultsStories[] = (stories[]) Data.getResults().toArray();
+
+                                RVAdapter adapter = new RVAdapter();
+
+                                adapter.storiesArray = resultsStories;
+                                adapter.type = "stories";
+                                mTitle.setText(R.string.titleStories);
 
                             }
 
@@ -205,10 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //endregion
 
-                //region llamar la vista para cualquier tipo de data
 
-
-                //endregion
             }
         });
 
