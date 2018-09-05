@@ -21,6 +21,7 @@ import com.example.imaginamos_2.marvelaplication.utils.ViewAdapter;
 import com.example.imaginamos_2.marvelaplication.utils.apiUtils;
 
 
+import java.io.Console;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,11 +129,12 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<comics>) response.body().getData();
-                                comics resultscom[] = (comics[]) Data.getResults().toArray();
+                                comics[] resultsCom;
+                                resultsCom =(comics[])  Data.getResults().toArray();
 
                                 RVAdapter adapter = new RVAdapter();
 
-                                adapter.comicArray = resultscom;
+                                //adapter.comicArray = resultsCom;
                                 adapter.type = "comic";
 
                                 mTitle.setText(R.string.titleComics);
@@ -183,15 +185,22 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
                                 Data = (MarvelList<creators>) response.body().getData();
-                                creators resultsCreators[] = (creators[]) Data.getResults().toArray();
+
+                                try{
+                                    creators resultsCreators[] = (creators[]) Data.getResults().toArray();
+                                } catch (ClassCastException c){
+                                    throw  c;
+                                } catch (Exception e ){
+                                    throw  e;
+                                }
+
 
                                 mTitle.setText(R.string.titleCreators);
 
 
-
                                 RVAdapter adapter = new RVAdapter();
 
-                                adapter.creatorsArray = resultsCreators;
+                               // adapter.creatorsArray = resultsCreators;
                                 adapter.type = "creators";
 
 
